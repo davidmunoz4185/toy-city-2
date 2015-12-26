@@ -3,27 +3,31 @@ require 'json'
 # Get path to products.json, read the file into a string,
 # and transform the string into a usable hash
 def setup_files
-    path = File.join(File.dirname(__FILE__), '../data/products.json')
-    file = File.read(path)
-    $products_hash = JSON.parse(file)
-    $report_file = File.new("report.txt", "w+")
-		$products = $products_hash["items"]
-		# Print today's date
-		$brands = $products.map{|product| product["brand"]}.uniq
-		$rule_character = "*"
+  path = File.join(File.dirname(__FILE__), '../data/products.json')
+  file = File.read(path)
+  $products_hash = JSON.parse(file)
+  $report_file = File.new("report.txt", "w+")
+end
+
+def config
+	$products = $products_hash["items"]
+	$brands = $products.map{|product| product["brand"]}.uniq
+	$rule_character = "*"
 end
 
 def create_report
-	puts get_sales_report_header
-	puts get_products_report_header
-	puts get_products
-	puts get_brands_report_header
-	puts get_brands
+	report = []
+	report.push print_sales_report_header
+	report.push print_products_report_header
+	report.push print_products
+	report.push print_brands_report_header
+	report.push print_brands
+	puts report.join("\n")
 end
 
 def start
-	$result = []
-  setup_files # load, read, parse, and create the files
+	setup_files # load, read, parse, and create the files
+	config # setup configuration
   create_report # create the report!
 end
 
@@ -33,7 +37,7 @@ def print_rule(string_to_repeat, times_to_repeat)
 end
 
 # Print "Sales Report" in ascii art
-def get_sales_report_header
+def print_sales_report_header
 	sales_report_header = []
 	sales_report_header.push " #####                                 ######                                    "
 	sales_report_header.push "#     #   ##   #      ######  ####     #     # ###### #####   ####  #####  #####"
@@ -45,10 +49,9 @@ def get_sales_report_header
 	sales_report_header.push "********************************************************************************"
 	return sales_report_header.join("\n")
 end
-# Print today's date
 
 # Print "Products" in ascii art
-def get_products_report_header
+def print_products_report_header
 	products_report_header = []
 	products_report_header.push "                     _            _       "
 	products_report_header.push "                    | |          | |      "
@@ -58,8 +61,20 @@ def get_products_report_header
 	products_report_header.push "| .__/|_|  \\___/ \\__,_|\\__,_|\\___|\\__|___/"
 	products_report_header.push "| |                                       "
 	products_report_header.push "|_|                                       "
-	products_report_header.push "\n"
-	return products_report_header.join("\n")
+	return products_report_header.join("\n") + "\n"
+end
+
+def print_brands_report_header
+	brand_header = []
+	# Print "Brands" in ascii art
+	brand_header.push " _                         _     "
+	brand_header.push "| |                       | |    "
+	brand_header.push "| |__  _ __ __ _ _ __   __| |___ "
+	brand_header.push "| '_ \\| '__/ _` | '_ \\ / _` / __|"
+	brand_header.push "| |_) | | | (_| | | | | (_| \\__ \\"
+	brand_header.push "|_.__/|_|  \\__,_|_| |_|\\__,_|___/"
+	brand_header.push ""
+	return brand_header.join("\n")
 end
 
 def print_product_title(product)
@@ -102,48 +117,6 @@ def print_average_discount(product)
 	return "Average Discount: " + "%0.2f%" % product_average_discount(product).to_s
 end
 
-def print_product(product)
-	print_result = []
-	print_result.push print_rule($rule_character, product["title"].length)
-	# Print the name of the toy
-	print_result.push print_product_title(product)
-	# Print the retail price of the toy
-	print_result.push print_product_retail_price(product)
-	# Calculate and print the total number of purchases
-	print_result.push print_product_total_purchases(product)
-	# Calcalate and print the total amount of sales
-	print_result.push print_product_total_sales_amount(product)
-	# Calculate and print the average price the toy sold for
-	print_result.push print_product_average_price(product)
-	# Calculate and print the average discount based off the average sales price
-	print_result.push print_average_discount(product)
-	print_result.push print_rule($rule_character, product["title"].length)
-	return print_result.join("\n")
-end
-
-def get_products
-	products = []
-# For each product in the data set:
-	$products.each do |product|
-		products.push print_product(product)
-	end
-	return products.join("\n")
-end
-
-def get_brands_report_header
-	brand_header = []
-	# Print "Brands" in ascii art
-	brand_header.push " _                         _     "
-	brand_header.push "| |                       | |    "
-	brand_header.push "| |__  _ __ __ _ _ __   __| |___ "
-	brand_header.push "| '_ \\| '__/ _` | '_ \\ / _` / __|"
-	brand_header.push "| |_) | | | (_| | | | | (_| \\__ \\"
-	brand_header.push "|_.__/|_|  \\__,_|_| |_|\\__,_|___/"
-	brand_header.push ""
-	brand_header.push ""
-	return brand_header.join("\n")
-end
-
 def brand_products(brand)
 	return $products.find_all{|product| product["brand"] == brand}
 end
@@ -182,12 +155,31 @@ def print_brand_revenue(products)
 	return "Total Sales: " + "$%0.2f" % brand_revenue(products).to_s
 end
 
+def print_product(product)
+	print_result = []
+	print_result.push print_rule($rule_character, product["title"].length)
+	# Print the name of the toy
+	print_result.push print_product_title(product)
+	# Print the retail price of the toy
+	print_result.push print_product_retail_price(product)
+	# Calculate and print the total number of purchases
+	print_result.push print_product_total_purchases(product)
+	# Calcalate and print the total amount of sales
+	print_result.push print_product_total_sales_amount(product)
+	# Calculate and print the average price the toy sold for
+	print_result.push print_product_average_price(product)
+	# Calculate and print the average discount based off the average sales price
+	print_result.push print_average_discount(product)
+	print_result.push print_rule($rule_character, product["title"].length)
+	return print_result.join("\n")
+end
+
 def print_brand(brand)
 	brand_result = []
 	products = brand_products(brand)
+	brand_result.push brand
 	brand_result.push print_rule($rule_character, 21)
 	# Print the name of the brand
-	brand_result.push brand
 	# Count and print the number of the brand's toys we stock
 	brand_result.push print_brand_toy_count(products)
 	# Count and print the number of the brand's toys we have in stock
@@ -197,16 +189,25 @@ def print_brand(brand)
 	# Calculate and print the total sales volume of all the brand's toys combined
 	brand_result.push print_brand_revenue(products)
 	brand_result.push print_rule($rule_character, 21)
-	brand_result.push ""
 	return brand_result.join("\n")
 end
 
-def get_brands
+def print_products
+	products = []
+# For each product in the data set:
+	$products.each do |product|
+		products.push print_product(product)
+	end
+	return products.join("\n" * 2)
+end
+
+def print_brands
 	brands = []
 	# For each brand in the data set:
 	$brands.each do |brand|
 		brands.push print_brand(brand)
 	end
-	return brands.join("\n")
+	return brands.join("\n" * 2)
 end
+
 start
