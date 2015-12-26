@@ -16,13 +16,16 @@ def config
 end
 
 def create_report
+	path = File.join(File.dirname(__FILE__), 'report.txt')
+	file = File.new(path,"w")
 	report = []
 	report.push print_sales_report_header
 	report.push print_products_report_header
 	report.push print_products
 	report.push print_brands_report_header
 	report.push print_brands
-	puts report.join("\n")
+	file.write(report.join("\n"))
+	file.close
 end
 
 def start
