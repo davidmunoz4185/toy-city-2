@@ -17,6 +17,8 @@ def create_report
 	print_sales_report_header
 	print_products_report_header
 	print_products
+	print_brands_report_header
+	print_brands
 	puts $result.join("\n")
 end
 
@@ -54,6 +56,7 @@ def print_products_report_header
 	$result.push "| .__/|_|  \\___/ \\__,_|\\__,_|\\___|\\__|___/"
 	$result.push "| |                                       "
 	$result.push "|_|                                       "
+	$result.push ""
 end
 
 def print_products
@@ -61,7 +64,7 @@ def print_products
 	$products.each do |product|
 		$result.push print_rule($rule_character, product["title"].length)
 		# Print the name of the toy
-		$result.push "Name: " + product["title"]
+		$result.push "--" + product["title"] + "--"
 		# Print the retail price of the toy
 		$result.push "Retail Price: " + "$%0.2f" % product["full-price"]
 		# Calculate and print the total number of purchases
@@ -74,39 +77,47 @@ def print_products
 		average_sale_price = sales_revenue/sales_count
 		$result.push "Average Price: " + "$%0.2f" % average_sale_price.round(2).to_s
 	  # Calculate and print the average discount based off the average sales price
-		average_discount = product["full-price"].to_f - average_sale_price
-		$result.push "Average Discount: " + "$%0.2f" % average_discount.round(2).to_s
+		average_discount = (product["full-price"].to_f - average_sale_price)/product["full-price"].to_f*100
+		$result.push "Average Discount: " + "%0.2f%" % average_discount.round(2).to_s
 		$result.push print_rule($rule_character, product["title"].length)
+		$result.push ""
 	end
 end
 
-=begin
-# Print "Brands" in ascii art
-puts " _                         _     "
-puts "| |                       | |    "
-puts "| |__  _ __ __ _ _ __   __| |___ "
-puts "| '_ \\| '__/ _` | '_ \\ / _` / __|"
-puts "| |_) | | | (_| | | | | (_| \\__ \\"
-puts "|_.__/|_|  \\__,_|_| |_|\\__,_|___/"
-puts
-
-# For each brand in the data set:
-$brands.each do |brand|
-	brand_products = $products.find_all{|product| product["brand"] == brand}
-	puts $padding_string
-	# Print the name of the brand
-	puts brand
-	# Count and print the number of the brand's toys we stock
-	brand_toy_count = brand_products.length
-	puts "Number of Products: " + brand_toy_count.to_s
-	# Calculate and print the average price of the brand's toys
-	sum_of_prices = brand_products.inject(0) {|sum_of_prices, product| sum_of_prices + product["full-price"].to_f}
-	puts "Average Product Price: " + "$%0.2f" % (sum_of_prices/brand_toy_count.round(2)).to_s
-	# Calculate and print the total sales volume of all the brand's toys combined
-	total_brand_revenue = brand_products.inject(0) do |brand_revenue, product|
-		brand_revenue + product["purchases"].inject(0) {|product_revenue, purchase| product_revenue + purchase["price"]}
-	end
-	puts "Total Sales: " + "$%0.2f" % total_brand_revenue.round(2).to_s
+def print_brands_report_header
+	# Print "Brands" in ascii art
+	$result.push " _                         _     "
+	$result.push "| |                       | |    "
+	$result.push "| |__  _ __ __ _ _ __   __| |___ "
+	$result.push "| '_ \\| '__/ _` | '_ \\ / _` / __|"
+	$result.push "| |_) | | | (_| | | | | (_| \\__ \\"
+	$result.push "|_.__/|_|  \\__,_|_| |_|\\__,_|___/"
+	$result.push ""
 end
-=end
+
+def print_brands
+	# For each brand in the data set:
+	$brands.each do |brand|
+		brand_products = $products.find_all{|product| product["brand"] == brand}
+		$result.push print_rule($rule_character, 21)
+		# Print the name of the brand
+		$result.push brand
+		# Count and print the number of the brand's toys we stock
+		brand_toy_count = brand_products.length
+		$result.push "Number of Products: " + brand_toy_count.to_s
+		# Count and print the number of the brand's toys we have in stock
+		sum_of_stock = brand_products.inject(0) {|sum_of_prices, product| sum_of_prices + product["stock"].to_f}
+		$result.push "Number of Products In Stock: " + "%0.0f" % sum_of_stock
+		# Calculate and print the average price of the brand's toys
+		sum_of_prices = brand_products.inject(0) {|sum_of_prices, product| sum_of_prices + product["full-price"].to_f}
+		$result.push "Average Product Price: " + "$%0.2f" % (sum_of_prices/brand_toy_count.round(2)).to_s
+		# Calculate and print the total sales volume of all the brand's toys combined
+		total_brand_revenue = brand_products.inject(0) do |brand_revenue, product|
+			brand_revenue + product["purchases"].inject(0) {|product_revenue, purchase| product_revenue + purchase["price"]}
+		end
+		$result.push "Total Sales: " + "$%0.2f" % total_brand_revenue.round(2).to_s
+		$result.push print_rule($rule_character, 21)
+		$result.push ""
+	end
+end
 start
