@@ -1,0 +1,53 @@
+commit f52ba4099ad82067b9236032bb40ecd65192b5ce
+Author: Tyler <tyler@tylermorgan.me>
+Date:   Sat Dec 26 14:32:03 2015 -0800
+
+    Added file write functionality
+
+commit 8df8aaac86a302d114ededdc72fc86ea48469d3f
+Author: Tyler <tyler@tylermorgan.me>
+Date:   Sat Dec 26 14:22:17 2015 -0800
+
+    Reorganized code and added comments
+
+commit b673e695be5624e13860c4ae6e91280ddf4bb6c9
+Author: Tyler <tyler@tylermorgan.me>
+Date:   Sat Dec 26 14:17:32 2015 -0800
+
+    Fixed styling and added config
+
+commit 955f60fe0f76791d9ac9b7cf052f00ee6ca93fd1
+Author: Tyler <tyler@tylermorgan.me>
+Date:   Sat Dec 26 13:54:24 2015 -0800
+
+    Refactored all code into functions
+
+commit 279ce4591514f507baddad806e30f5b66fdb6fdd
+Author: Tyler <tyler@tylermorgan.me>
+Date:   Sat Dec 26 11:23:53 2015 -0800
+
+    All functionality working
+
+commit 861b60e5d9ac4d050a81c153831f08e051a2258c
+Author: Tyler <tyler@tylermorgan.me>
+Date:   Wed Dec 23 01:47:29 2015 -0800
+
+    Implemented Sales Rport Header and Products
+
+commit d6819deee20a838764c70d256412b1b7ca7b6c4e
+Author: Tyler <tyler@tylermorgan.me>
+Date:   Wed Dec 23 01:21:04 2015 -0800
+
+    Ported over work from toycity1.
+
+commit 46a58706fb7ade375e1b5970030883de937931b0
+Author: Tyler <tyler@tylermorgan.me>
+Date:   Wed Dec 23 01:06:57 2015 -0800
+
+    Added initial code from course content
+
+commit b5c9c00dd8684e1fbf4c5494299d6e5d85c4ad98
+Author: Tyler <tyler@tylermorgan.me>
+Date:   Tue Dec 22 23:22:15 2015 -0800
+
+    Initial commit. As pulled from Udacity course.
