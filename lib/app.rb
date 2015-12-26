@@ -50,6 +50,10 @@ def print_sales_report_header
 	return sales_report_header.join("\n")
 end
 
+###############################
+# ASCII ART HEADERS
+###############################
+
 # Print "Products" in ascii art
 def print_products_report_header
 	products_report_header = []
@@ -64,9 +68,9 @@ def print_products_report_header
 	return products_report_header.join("\n") + "\n"
 end
 
+# Print "Brands" in ascii art
 def print_brands_report_header
 	brand_header = []
-	# Print "Brands" in ascii art
 	brand_header.push " _                         _     "
 	brand_header.push "| |                       | |    "
 	brand_header.push "| |__  _ __ __ _ _ __   __| |___ "
@@ -76,6 +80,10 @@ def print_brands_report_header
 	brand_header.push ""
 	return brand_header.join("\n")
 end
+
+###############################
+# Product Functions
+###############################
 
 def print_product_title(product)
 	return "--" + product["title"] + "--"
@@ -117,6 +125,38 @@ def print_average_discount(product)
 	return "Average Discount: " + "%0.2f%" % product_average_discount(product).to_s
 end
 
+def print_product(product)
+	print_result = []
+	print_result.push print_rule($rule_character, product["title"].length)
+	# Print the name of the toy
+	print_result.push print_product_title(product)
+	# Print the retail price of the toy
+	print_result.push print_product_retail_price(product)
+	# Calculate and print the total number of purchases
+	print_result.push print_product_total_purchases(product)
+	# Calcalate and print the total amount of sales
+	print_result.push print_product_total_sales_amount(product)
+	# Calculate and print the average price the toy sold for
+	print_result.push print_product_average_price(product)
+	# Calculate and print the average discount based off the average sales price
+	print_result.push print_average_discount(product)
+	print_result.push print_rule($rule_character, product["title"].length)
+	return print_result.join("\n")
+end
+
+def print_products
+	products = []
+# For each product in the data set:
+	$products.each do |product|
+		products.push print_product(product)
+	end
+	return products.join("\n" * 2)
+end
+
+###############################
+# Brand Functions
+###############################
+
 def brand_products(brand)
 	return $products.find_all{|product| product["brand"] == brand}
 end
@@ -155,25 +195,6 @@ def print_brand_revenue(products)
 	return "Total Sales: " + "$%0.2f" % brand_revenue(products).to_s
 end
 
-def print_product(product)
-	print_result = []
-	print_result.push print_rule($rule_character, product["title"].length)
-	# Print the name of the toy
-	print_result.push print_product_title(product)
-	# Print the retail price of the toy
-	print_result.push print_product_retail_price(product)
-	# Calculate and print the total number of purchases
-	print_result.push print_product_total_purchases(product)
-	# Calcalate and print the total amount of sales
-	print_result.push print_product_total_sales_amount(product)
-	# Calculate and print the average price the toy sold for
-	print_result.push print_product_average_price(product)
-	# Calculate and print the average discount based off the average sales price
-	print_result.push print_average_discount(product)
-	print_result.push print_rule($rule_character, product["title"].length)
-	return print_result.join("\n")
-end
-
 def print_brand(brand)
 	brand_result = []
 	products = brand_products(brand)
@@ -190,15 +211,6 @@ def print_brand(brand)
 	brand_result.push print_brand_revenue(products)
 	brand_result.push print_rule($rule_character, 21)
 	return brand_result.join("\n")
-end
-
-def print_products
-	products = []
-# For each product in the data set:
-	$products.each do |product|
-		products.push print_product(product)
-	end
-	return products.join("\n" * 2)
 end
 
 def print_brands
