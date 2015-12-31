@@ -52,7 +52,7 @@ LEGO
 *********************
 Number of Products: 2
 Number of Products In Stock: 55
-Average Product Price: $222.98
+Average Product Price: $104.24
 Total Sales: $416.96
 *********************
 
@@ -60,6 +60,6 @@ Nano Blocks
 *********************
 Number of Products: 1
 Number of Products In Stock: 12
-Average Product Price: $49.99
+Average Product Price: $34.49
 Total Sales: $68.98
 *********************

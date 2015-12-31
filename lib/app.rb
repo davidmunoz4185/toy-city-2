@@ -180,18 +180,28 @@ def print_brand_stock(products)
 	return "Number of Products In Stock: " + "%0.0f" % brand_stock(products)
 end
 
-def brand_average_price(products)
+def brand_average_full_price(products)
 	return products.inject(0) {|sum_of_prices, product| sum_of_prices + product["full-price"].to_f}
 end
 
-def print_brand_average_price(products)
-	return "Average Product Price: " + "$%0.2f" % brand_average_price(products).to_s
+def brand_sales(products)
+  return products.inject(0) do |brand_sales, product|
+    brand_sales + product["purchases"].length
+  end
 end
 
 def brand_revenue(products)
 	return products.inject(0) do |brand_revenue, product|
 		brand_revenue + product["purchases"].inject(0) {|product_revenue, purchase| product_revenue + purchase["price"]}
 	end
+end
+
+def brand_average_price(products)
+	return brand_revenue(products)/brand_sales(products)
+end
+
+def print_brand_average_price(products)
+	return "Average Product Price: " + "$%0.2f" % brand_average_price(products).to_s
 end
 
 def print_brand_revenue(products)
