@@ -181,7 +181,7 @@ def print_brand_stock(products)
 end
 
 def brand_average_full_price(products)
-	return products.inject(0) {|sum_of_prices, product| sum_of_prices + product["full-price"].to_f}
+	return products.inject(0) {|sum_of_prices, product| sum_of_prices + product["full-price"].to_f}/brand_toy_count(products)
 end
 
 def brand_sales(products)
