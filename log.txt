@@ -1,3 +1,15 @@
+commit 2f83c6910737f9d945e9708f455957b1ee4ada80
+Author: Tyler <tyler@tylermorgan.me>
+Date:   Wed Dec 30 18:49:59 2015 -0800
+
+    Changed brand average price to be for price instead of full_price
+
+commit 79894f1616e8d5d2a1ac41fb63de743be598bdd6
+Author: Tyler <tyler@tylermorgan.me>
+Date:   Sat Dec 26 15:09:58 2015 -0800
+
+    Added git log to project
+
 commit f52ba4099ad82067b9236032bb40ecd65192b5ce
 Author: Tyler <tyler@tylermorgan.me>
 Date:   Sat Dec 26 14:32:03 2015 -0800
