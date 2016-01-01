@@ -204,6 +204,10 @@ def print_brand_average_price(products)
 	return "Average Product Price: " + "$%0.2f" % brand_average_price(products).to_s
 end
 
+def print_brand_average_full_price(products)
+	return "Average Product Full Price: " + "$%0.2f" % brand_average_full_price(products).to_s
+end
+
 def print_brand_revenue(products)
 	return "Total Sales: " + "$%0.2f" % brand_revenue(products).to_s
 end
@@ -220,6 +224,8 @@ def print_brand(brand)
 	brand_result.push print_brand_stock(products)
 	# Calculate and print the average price of the brand's toys
 	brand_result.push print_brand_average_price(products)
+  # Calculate and print the average full price of the brand's toys
+	brand_result.push print_brand_average_full_price(products)
 	# Calculate and print the total sales volume of all the brand's toys combined
 	brand_result.push print_brand_revenue(products)
 	brand_result.push print_rule($rule_character, 21)
